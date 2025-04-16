@@ -1,0 +1,9 @@
+timestamp,sensor_type,location,value,unit
+2025-04-17 00:00:00,traffic,Intersection A,150,vehicles/hour
+2025-04-17 00:00:00,air_quality,Downtown,15,µg/m³
+2025-04-17 00:00:00,energy,Residential Zone 1,220,kWh
+2025-04-17 00:00:00,transport,Bus Station Central,75,passengers
+2025-04-17 00:15:00,traffic,Intersection B,180,vehicles/hour
+2025-04-17 00:15:00,air_quality,Industrial Area,45,µg/m³
+2025-04-17 00:15:00,energy,Commercial Zone,350,kWh
+2025-04-17 00:15:00,transport,Train Station Main,120,passengers

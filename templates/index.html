@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart City Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Smart City Dashboard</h1>
+
+    <div class="chart-container">
+        <h2>Traffic Flow</h2>
+        <div id="traffic_chart"></div>
+    </div>
+
+    <div class="chart-container">
+        <h2>Air Quality Levels</h2>
+        <div id="air_quality_chart"></div>
+    </div>
+
+    <div class="chart-container">
+        <h2>Energy Consumption</h2>
+        <div id="energy_chart"></div>
+    </div>
+
+    <div class="chart-container">
+        <h2>Public Transport Usage</h2>
+        <div id="transport_chart"></div>
+    </div>
+
+    <script type="text/javascript">
+        var traffic_data = JSON.parse("{{ traffic_chart_json|safe }}");
+        Plotly.newPlot('traffic_chart', traffic_data.data, traffic_data.layout);
+
+        var air_quality_data = JSON.parse("{{ air_quality_chart_json|safe }}");
+        Plotly.newPlot('air_quality_chart', air_quality_data.data, air_quality_data.layout);
+
+        var energy_data = JSON.parse("{{ energy_chart_json|safe }}");
+        Plotly.newPlot('energy_chart', energy_data.data, energy_data.layout);
+
+        var transport_data = JSON.parse("{{ transport_chart_json|safe }}");
+        Plotly.newPlot('transport_chart', transport_data.data, transport_data.layout);
+    </script>
+</body>
+</html>
