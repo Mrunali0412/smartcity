@@ -9,22 +9,13 @@ h1, h2 {
     text-align: center;
 }
 
-#charts {
-    display: flex;
-    flex-direction: column; /* Change to column layout */
-    align-items: center; /* Center the charts horizontally */
-    margin-bottom: 20px;
-}
+
 .chart-container {
-    width: 100%; /* Make each chart container take full width */
-    max-width: 600px; /* You can set a maximum width if needed */
-    height: 400px;
+    background-color: #fff;
+    padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #traffic_chart, #air_quality_chart, #energy_chart, #transport_chart {
