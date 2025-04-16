@@ -1,45 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart City Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #charts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            width: 48%;
+            min-width: 300px;
+            height: 400px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+        .chart-container h2{
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        #error-message {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Smart City Dashboard</h1>
-
-    <div class="chart-container">
-        <h2>Traffic Flow</h2>
-        <div id="traffic_chart"></div>
+    <div class="container">
+        <h1>Smart City Dashboard</h1>
+        <div id="charts">
+            <div class="chart-container">
+                <h2>Traffic Flow</h2>
+                <div id="traffic_chart"></div>
+            </div>
+            <div class="chart-container">
+                <h2>Air Quality</h2>
+                <div id="air_quality_chart"></div>
+            </div>
+            <div class="chart-container">
+                <h2>Energy Consumption</h2>
+                <div id="energy_chart"></div>
+            </div>
+            <div class="chart-container">
+                <h2>Transport Usage</h2>
+                <div id="transport_chart"></div>
+            </div>
+        </div>
+        <div id="error-message"></div>
     </div>
+    <script>
+        function createPlot(chartId, chartData) {
+            const chartContainer = document.getElementById(chartId);
+            if (!chartContainer) {
+                console.error(`Chart container "${chartId}" not found`);
+                return;
+            }
+            try{
+                const data = JSON.parse(chartData);
+                if (data.error) {
+                    chartContainer.innerHTML = `<p style="color:red;">${data.error}</p>`;
+                    return;
+                }
+                Plotly.newPlot(chartId, data);
+             } catch (error){
+                console.error(`Error creating plot ${chartId}: ${error} Data: ${chartData}`);
+                chartContainer.innerHTML = `<p style="color:red;">Error creating chart.</p>`;
+             }
+        }
 
-    <div class="chart-container">
-        <h2>Air Quality Levels</h2>
-        <div id="air_quality_chart"></div>
-    </div>
+        document.addEventListener('DOMContentLoaded', function() {
+            const trafficChartData = {{ traffic_chart_json | safe }};
+            const airQualityChartData = {{ air_quality_chart_json | safe }};
+            const energyChartData = {{ energy_chart_json | safe }};
+            const transportChartData = {{ transport_chart_json | safe }};
 
-    <div class="chart-container">
-        <h2>Energy Consumption</h2>
-        <div id="energy_chart"></div>
-    </div>
-
-    <div class="chart-container">
-        <h2>Public Transport Usage</h2>
-        <div id="transport_chart"></div>
-    </div>
-
-    <script type="text/javascript">
-        var traffic_data = JSON.parse("{{ traffic_chart_json|safe }}");
-        Plotly.newPlot('traffic_chart', traffic_data.data, traffic_data.layout);
-
-        var air_quality_data = JSON.parse("{{ air_quality_chart_json|safe }}");
-        Plotly.newPlot('air_quality_chart', air_quality_data.data, air_quality_data.layout);
-
-        var energy_data = JSON.parse("{{ energy_chart_json|safe }}");
-        Plotly.newPlot('energy_chart', energy_data.data, energy_data.layout);
-
-        var transport_data = JSON.parse("{{ transport_chart_json|safe }}");
-        Plotly.newPlot('transport_chart', transport_data.data, transport_data.layout);
+            createPlot('traffic_chart', trafficChartData);
+            createPlot('air_quality_chart', airQualityChartData);
+            createPlot('energy_chart', energyChartData);
+            createPlot('transport_chart', transportChartData);
+        });
     </script>
 </body>
 </html>
