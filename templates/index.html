@@ -27,13 +27,13 @@
         }
         #charts {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+            flex-direction: column; /* Change to column layout */
+            align-items: center; /* Center the charts horizontally */
             margin-bottom: 20px;
         }
         .chart-container {
-            width: 48%;
-            min-width: 300px;
+            width: 100%; /* Make each chart container take full width */
+            max-width: 600px; /* You can set a maximum width if needed */
             height: 400px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -47,6 +47,7 @@
             font-size: 1.2em;
             color: #555;
             margin-bottom: 5px;
+            border-color: #333;
         }
         #error-message {
             color: red;
