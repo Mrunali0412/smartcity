@@ -6,6 +6,7 @@
     <title>Smart City Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"/>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,6 +22,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
@@ -59,6 +61,8 @@
 <body>
     <div class="container">
         <h1>Smart City Dashboard</h1>
+        <header><h2 style="text-align: center;"><a href="http://localhost:5000/add-data">ADD DATA</a></h2></header>
+
         <div id="charts">
             <div class="chart-container">
                 <h2>Traffic Flow</h2>
@@ -77,7 +81,8 @@
                 <h2>Energy Consumption</h2>
                 <div id="energy_chart"></div>
             </div>
-        </div>
+        
+        
         <div id="error-message"></div>
     </div>
     <script>
@@ -100,7 +105,7 @@
              }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function() {
             const trafficChartData = {{ traffic_chart_json | safe }};
             const airQualityChartData = {{ air_quality_chart_json | safe }};
             const energyChartData = {{ energy_chart_json | safe }};

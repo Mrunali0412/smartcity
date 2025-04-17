@@ -5,13 +5,13 @@ body {
 }
 
 h1, h2 {
-    color: #333;
+    color:red;
     text-align: center;
 }
 
 
 .chart-container {
-    background-color: #fff;
+    background-color: black;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;

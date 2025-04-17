@@ -1,14 +1,24 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, request, render_template, redirect
+from flask import jsonify
+import psycopg2
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.subplots as make_subplots
 import json
+from psycopg2 import sql
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.sql import func
 import os
 from dotenv import load_dotenv
 
+conn = psycopg2.connect(
+    host="localhost",
+    database="smartcity",
+    user="postgres",
+    password="postgresql"
+)
+cursor= conn.cursor()
 load_dotenv()  # Load environment variables from .env file
 app = Flask(__name__)
 
@@ -16,6 +26,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') #  Use environment variable
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # To suppress a warning
 db = SQLAlchemy(app)
+
 
 
 class SensorData(db.Model):
@@ -128,6 +139,26 @@ def get_data():
                  'value': item.value,
                  'unit': item.unit} for item in all_data]
         return jsonify(data)
+@app.route('/add-data')
+def add_data():
+    return render_template('sensor_data.html')
+
+@app.route('/submit_sensor_data', methods=['POST'])
+def submit_sensor_data():
+    sensor_type = request.form['sensor_type']
+    location = request.form['location']
+    timestamp = request.form['timestamp']
+    value = request.form['value']
+
+    insert_query = sql.SQL("""
+        INSERT INTO sensor_data (sensor_type, location, timestamp, value)
+        VALUES (%s, %s, %s, %s)
+    """)
+    cursor.execute(insert_query, (sensor_type, location, timestamp, value))
+    conn.commit()
+
+    return "✅ Sensor data inserted successfully!"
+
 
 if __name__ == '__main__':
     create_database()
